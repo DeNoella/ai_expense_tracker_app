@@ -27,12 +27,52 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const response = await authAPI.register({ full_name: fullName, email, password });
+      console.log('📝 Attempting registration...', { 
+        email, 
+        hasPassword: !!password,
+        hasName: !!fullName 
+      });
+      
+      const response = await authAPI.register({ 
+        full_name: fullName, 
+        email, 
+        password 
+      });
+      
+      console.log('✅ Registration successful:', response.data);
       setAuthToken(response.data.token);
       setUser(response.data.user);
       router.push('/dashboard');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Registration failed. Please try again.');
+      console.error('❌ Registration error details:', {
+        error: err,
+        message: err.message,
+        response: err.response,
+        code: err.code,
+        status: err.response?.status,
+        data: err.response?.data
+      });
+
+      let errorMessage = 'Registration failed. Please try again.';
+      
+      // Network errors
+      if (err.code === 'ECONNREFUSED' || err.code === 'ERR_NETWORK') {
+        errorMessage = 'Cannot connect to server. Make sure the backend is running on port 5000.';
+      } 
+      // Timeout errors
+      else if (err.code === 'ECONNABORTED') {
+        errorMessage = 'Request timed out. Please check your connection and try again.';
+      }
+      // HTTP errors with response
+      else if (err.response) {
+        errorMessage = err.response.data?.error || err.response.data?.message || `Server error: ${err.response.status}`;
+      }
+      // Other errors
+      else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

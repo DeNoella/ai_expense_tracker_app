@@ -1,11 +1,50 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import Layout from '@/components/Layout';
 import { aiAPI, chatAPI } from '@/lib/api';
 import { isAuthenticated } from '@/lib/auth';
-import { Send, Bot, User, Trash2, Sparkles } from 'lucide-react';
+
+// Local lightweight SVG icon components to avoid depending on 'lucide-react'
+const Send = (props: any) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M22 2L11 13" />
+    <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+  </svg>
+);
+
+const Bot = (props: any) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <rect x="4" y="7" width="16" height="11" rx="2" />
+    <path d="M8 7V5a4 4 0 0 1 8 0v2" />
+    <circle cx="9" cy="13" r="1" />
+    <circle cx="15" cy="13" r="1" />
+  </svg>
+);
+
+const User = (props: any) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+    <circle cx="12" cy="8" r="4" />
+  </svg>
+);
+
+const Trash2 = (props: any) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <polyline points="3 6 5 6 21 6" />
+    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+    <path d="M10 11v6" />
+    <path d="M14 11v6" />
+    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+  </svg>
+);
+
+const Sparkles = (props: any) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M12 3l1.5 3 3 1.5-3 1.5L12 12l-1.5-3L7 7.5 10 6z" />
+    <path d="M5 12l1 2 2 .5-2 .5-1 2-1-2-2-.5 2-.5z" />
+  </svg>
+);
 
 interface Message {
   id: string;
@@ -15,7 +54,6 @@ interface Message {
 }
 
 export default function AIChatPage() {
-  const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -24,12 +62,12 @@ export default function AIChatPage() {
 
   useEffect(() => {
     if (!isAuthenticated()) {
-      router.push('/login');
+      // client-side redirect when not authenticated
+      window.location.href = '/login';
       return;
     }
     fetchChatHistory();
-  }, [router]);
-
+  }, []);
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
