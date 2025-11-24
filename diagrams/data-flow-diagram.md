@@ -1,80 +1,63 @@
 # Data Flow Diagram - FinWise
 
 ```mermaid
-flowchart TB
-    subgraph "User Layer"
-        User[User]
-    end
+flowchart TD
+    User((User))
     
-    subgraph "Frontend - Next.js"
-        UI[User Interface]
-        AuthState[Auth State]
-        APIClient[API Client]
-        LocalStorage[(localStorage)]
-    end
+    Auth((Authentication))
+    ExpenseMgmt((Expense<br/>Management))
+    BudgetMgmt((Budget<br/>Management))
+    AIChat((AI<br/>Analysis))
+    Dashboard((Dashboard))
     
-    subgraph "Backend - Express API"
-        APIRoutes[API Routes]
-        AuthMiddleware[Auth Middleware]
-        Controllers[Controllers]
-        AIEngine[AI Engine]
-    end
+    UsersTable[users table]
+    ExpensesTable[expenses table]
+    BudgetTable[budget table]
+    IncomeTable[income table]
+    ChatTable[chat_history table]
     
-    subgraph "Database - PostgreSQL"
-        Users[(users)]
-        Expenses[(expenses)]
-        Budget[(budget)]
-        Income[(income)]
-        ChatHistory[(chat_history)]
-    end
+    %% User Interactions
+    User -->|Login/Register| Auth
+    User -->|Expense Operations| ExpenseMgmt
+    User -->|Budget Operations| BudgetMgmt
+    User -->|Chat Question| AIChat
+    User -->|View Dashboard| Dashboard
     
-    %% User to Frontend
-    User -->|Interacts| UI
-    UI <-->|Read/Write| AuthState
-    UI -->|Makes Requests| APIClient
-    APIClient <-->|Store/Retrieve Token| LocalStorage
+    %% Authentication Flow
+    Auth <-->|User Data| UsersTable
+    Auth -->|Token| User
     
-    %% Frontend to Backend
-    APIClient -->|HTTP + JWT Token| APIRoutes
-    APIRoutes -->|Validate| AuthMiddleware
-    AuthMiddleware -->|Route| Controllers
-    Controllers -->|Process| AIEngine
+    %% Expense Management Flow
+    ExpenseMgmt <-->|Expense Data| ExpensesTable
+    ExpenseMgmt -->|Expense Result| User
     
-    %% Backend to Database
-    Controllers -->|SELECT/INSERT/UPDATE/DELETE| Users
-    Controllers -->|SELECT/INSERT/UPDATE/DELETE| Expenses
-    Controllers -->|SELECT/INSERT/UPDATE/DELETE| Budget
-    Controllers -->|SELECT/INSERT/UPDATE/DELETE| Income
-    Controllers -->|SELECT/INSERT| ChatHistory
+    %% Budget Management Flow
+    BudgetMgmt <-->|Budget Data| BudgetTable
+    BudgetMgmt <-->|Income Data| IncomeTable
+    BudgetMgmt -->|Budget Result| User
     
-    %% Database to Backend
-    Users -->|Query Results| Controllers
-    Expenses -->|Query Results| Controllers
-    Budget -->|Query Results| Controllers
-    Income -->|Query Results| Controllers
-    ChatHistory -->|Query Results| Controllers
+    %% AI Chat Flow
+    AIChat -->|Read Expenses| ExpensesTable
+    AIChat -->|Read Budget| BudgetTable
+    AIChat -->|Read Income| IncomeTable
+    AIChat <-->|Chat History| ChatTable
+    AIChat -->|AI Response| User
     
-    %% Backend to Frontend
-    Controllers -->|JSON Response| APIRoutes
-    APIRoutes -->|JSON Response| APIClient
-    APIClient -->|Update State| AuthState
-    APIClient -->|Update UI| UI
+    %% Dashboard Flow
+    Dashboard -->|Read Expenses| ExpensesTable
+    Dashboard -->|Read Budget| BudgetTable
+    Dashboard -->|Read Income| IncomeTable
+    Dashboard -->|Statistics| User
     
-    %% Frontend to User
-    UI -->|Display| User
-    
-    style User fill:#e1f5ff
-    style UI fill:#fff4e6
-    style AuthState fill:#fff4e6
-    style APIClient fill:#fff4e6
-    style LocalStorage fill:#fff4e6
-    style APIRoutes fill:#f3e5f5
-    style AuthMiddleware fill:#f3e5f5
-    style Controllers fill:#f3e5f5
-    style AIEngine fill:#f3e5f5
-    style Users fill:#e8f5e9
-    style Expenses fill:#e8f5e9
-    style Budget fill:#e8f5e9
-    style Income fill:#e8f5e9
-    style ChatHistory fill:#e8f5e9
+    style User fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style Auth fill:#fff4e6,stroke:#333,stroke-width:2px
+    style ExpenseMgmt fill:#fff4e6,stroke:#333,stroke-width:2px
+    style BudgetMgmt fill:#fff4e6,stroke:#333,stroke-width:2px
+    style AIChat fill:#fff4e6,stroke:#333,stroke-width:2px
+    style Dashboard fill:#fff4e6,stroke:#333,stroke-width:2px
+    style UsersTable fill:#e8f5e9,stroke:#333,stroke-width:2px
+    style ExpensesTable fill:#e8f5e9,stroke:#333,stroke-width:2px
+    style BudgetTable fill:#e8f5e9,stroke:#333,stroke-width:2px
+    style IncomeTable fill:#e8f5e9,stroke:#333,stroke-width:2px
+    style ChatTable fill:#e8f5e9,stroke:#333,stroke-width:2px
 ```
