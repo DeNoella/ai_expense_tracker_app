@@ -18,6 +18,7 @@ import {
   X
 } from 'lucide-react';
 import Link from 'next/link';
+import React from 'react';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -37,7 +38,7 @@ export default function DashboardPage() {
       return;
     }
     fetchData();
-  }, [router]);
+  }, []);
 
   const fetchData = async () => {
     try {

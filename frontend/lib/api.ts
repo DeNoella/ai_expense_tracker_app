@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+declare const process: { env?: { NEXT_PUBLIC_API_URL?: string } };
+
+const API_URL = (typeof process !== 'undefined' ? process.env?.NEXT_PUBLIC_API_URL : undefined) || 'http://localhost:5000/api';
 
 const api = axios.create({
   baseURL: API_URL,

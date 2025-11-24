@@ -85,7 +85,7 @@ FRONTEND_URL=http://localhost:3000
 DB_USER=postgres
 DB_HOST=localhost
 DB_NAME=finwise
-DB_PASSWORD=your_postgres_password
+DB_PASSWORD=123
 DB_PORT=5432
 JWT_SECRET=your-secret-key-change-in-production
 ```
@@ -115,23 +115,39 @@ NEXT_PUBLIC_API_URL=http://localhost:5000/api
 
 ## 🏃 Running the Application
 
-### Start the Backend Server
+### Option 1: Run Both Together (Recommended)
 
+From the **root directory**, simply run:
+
+```bash
+npm run dev
+```
+
+This will start both the backend (port 5000) and frontend (port 3000) simultaneously.
+
+### Option 2: Run Separately
+
+**Terminal 1 - Backend:**
 ```bash
 cd backend
 npm run dev
 ```
 
-The backend server will run on `http://localhost:5000`
-
-### Start the Frontend Development Server
-
+**Terminal 2 - Frontend:**
 ```bash
 cd frontend
 npm run dev
 ```
 
-The frontend will run on `http://localhost:3000`
+### First Time Setup
+
+If you haven't installed dependencies yet, from the root directory:
+
+```bash
+npm run install:all
+```
+
+This will install dependencies for root, backend, and frontend.
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
