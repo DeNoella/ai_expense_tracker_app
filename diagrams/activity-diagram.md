@@ -1,168 +1,85 @@
 # Activity Diagram - FinWise Expense Tracker
 
-## User Registration & Login Flow
+## Complete Application Flow
 
 ```mermaid
 flowchart TD
     Start([User Opens App]) --> CheckAuth{Is User<br/>Authenticated?}
-    CheckAuth -->|No| ShowLogin[Show Login Page]
+    
+    CheckAuth -->|No| AuthPage[Authentication Page]
     CheckAuth -->|Yes| Dashboard[Dashboard]
     
-    ShowLogin --> UserChoice{User Action}
-    UserChoice -->|Register| RegisterPage[Registration Page]
-    UserChoice -->|Login| LoginForm[Login Form]
+    AuthPage --> AuthChoice{Register or<br/>Login?}
+    AuthChoice -->|Register| Register[Fill Registration Form]
+    AuthChoice -->|Login| Login[Fill Login Form]
     
-    RegisterPage --> FillRegForm[Fill Registration Form]
-    FillRegForm --> SubmitReg[Submit Registration]
-    SubmitReg --> ValidateReg{Validate<br/>Form Data}
-    ValidateReg -->|Invalid| ShowRegError[Show Error Message]
-    ShowRegError --> FillRegForm
-    ValidateReg -->|Valid| SendRegRequest[Send POST /api/auth/register]
-    SendRegRequest --> CheckEmail{Email<br/>Exists?}
-    CheckEmail -->|Yes| ShowRegError
-    CheckEmail -->|No| HashPassword[Hash Password]
-    HashPassword --> SaveUser[Save to Database]
-    SaveUser --> GenerateToken[Generate JWT Token]
-    GenerateToken --> StoreToken[Store Token in LocalStorage]
-    StoreToken --> Dashboard
+    Register --> ValidateReg{Valid<br/>Data?}
+    ValidateReg -->|No| ShowRegError[Show Error]
+    ShowRegError --> Register
+    ValidateReg -->|Yes| CreateAccount[Create Account in Database]
+    CreateAccount --> GenerateToken1[Generate JWT Token]
+    GenerateToken1 --> StoreAuth1[Store Token]
+    StoreAuth1 --> Dashboard
     
-    LoginForm --> FillLoginForm[Fill Login Form]
-    FillLoginForm --> SubmitLogin[Submit Login]
-    SubmitLogin --> ValidateLogin{Validate<br/>Form Data}
-    ValidateLogin -->|Invalid| ShowLoginError[Show Error Message]
-    ShowLoginError --> FillLoginForm
-    ValidateLogin -->|Valid| SendLoginRequest[Send POST /api/auth/login]
-    SendLoginRequest --> FindUser{User<br/>Exists?}
-    FindUser -->|No| ShowLoginError
-    FindUser -->|Yes| VerifyPassword{Password<br/>Correct?}
-    VerifyPassword -->|No| ShowLoginError
-    VerifyPassword -->|Yes| GenerateToken2[Generate JWT Token]
-    GenerateToken2 --> StoreToken2[Store Token in LocalStorage]
-    StoreToken2 --> Dashboard
+    Login --> ValidateLogin{Valid<br/>Credentials?}
+    ValidateLogin -->|No| ShowLoginError[Show Error]
+    ShowLoginError --> Login
+    ValidateLogin -->|Yes| VerifyUser[Verify User in Database]
+    VerifyUser --> GenerateToken2[Generate JWT Token]
+    GenerateToken2 --> StoreAuth2[Store Token]
+    StoreAuth2 --> Dashboard
     
-    Dashboard --> End([User Logged In])
-```
-
-## Expense Management Flow
-
-```mermaid
-flowchart TD
-    Start([User on Dashboard]) --> ViewExpenses[View Expenses]
-    ViewExpenses --> UserAction{User Action}
+    Dashboard --> LoadData[Load User Data]
+    LoadData --> DisplayStats[Display Statistics]
+    DisplayStats --> DisplayCharts[Display Charts]
+    DisplayCharts --> UserAction{User Action}
     
-    UserAction -->|Add Expense| AddExpenseForm[Open Add Expense Form]
-    UserAction -->|Edit Expense| EditExpenseForm[Open Edit Expense Form]
-    UserAction -->|Delete Expense| ConfirmDelete{Confirm<br/>Delete?}
-    UserAction -->|Filter| ApplyFilters[Apply Filters]
-    UserAction -->|View Stats| ShowStats[Show Statistics]
+    UserAction -->|Manage Expenses| ExpensePage[Expenses Page]
+    UserAction -->|Set Budget| BudgetPage[Budget Management]
+    UserAction -->|AI Chat| ChatPage[AI Chat Page]
+    UserAction -->|Logout| ClearAuth[Clear Authentication]
+    ClearAuth --> AuthPage
     
-    AddExpenseForm --> FillExpenseForm[Fill Expense Form]
-    FillExpenseForm --> SubmitExpense[Submit Expense]
-    SubmitExpense --> ValidateExpense{Validate<br/>Data}
-    ValidateExpense -->|Invalid| ShowExpenseError[Show Error]
-    ShowExpenseError --> FillExpenseForm
-    ValidateExpense -->|Valid| SendExpenseRequest[POST /api/expenses]
-    SendExpenseRequest --> SaveExpense[Save to Database]
-    SaveExpense --> RefreshList[Refresh Expense List]
-    RefreshList --> ViewExpenses
+    ExpensePage --> ExpenseAction{Action?}
+    ExpenseAction -->|Add| AddExpense[Add New Expense]
+    ExpenseAction -->|Edit| EditExpense[Edit Expense]
+    ExpenseAction -->|Delete| DeleteExpense[Delete Expense]
+    ExpenseAction -->|Filter| FilterExpenses[Filter Expenses]
+    ExpenseAction -->|Back| Dashboard
     
-    EditExpenseForm --> LoadExpenseData[Load Expense Data]
-    LoadExpenseData --> FillExpenseForm2[Fill Form with Data]
-    FillExpenseForm2 --> SubmitEdit[Submit Changes]
-    SubmitEdit --> ValidateExpense2{Validate<br/>Data}
-    ValidateExpense2 -->|Invalid| ShowExpenseError2[Show Error]
-    ShowExpenseError2 --> FillExpenseForm2
-    ValidateExpense2 -->|Valid| SendUpdateRequest[PUT /api/expenses/:id]
-    SendUpdateRequest --> UpdateExpense[Update in Database]
-    UpdateExpense --> RefreshList
+    AddExpense --> SaveExpense[Save to Database]
+    EditExpense --> UpdateExpense[Update in Database]
+    DeleteExpense --> RemoveExpense[Remove from Database]
+    SaveExpense --> RefreshExpenses[Refresh Expense List]
+    UpdateExpense --> RefreshExpenses
+    RemoveExpense --> RefreshExpenses
+    FilterExpenses --> RefreshExpenses
+    RefreshExpenses --> ExpensePage
     
-    ConfirmDelete -->|Yes| SendDeleteRequest[DELETE /api/expenses/:id]
-    ConfirmDelete -->|No| ViewExpenses
-    SendDeleteRequest --> DeleteExpense[Delete from Database]
-    DeleteExpense --> RefreshList
+    BudgetPage --> BudgetAction{Action?}
+    BudgetAction -->|Set Budget| SetBudget[Set Monthly Budget]
+    BudgetAction -->|Add Income| AddIncome[Add Income]
+    BudgetAction -->|Back| Dashboard
     
-    ApplyFilters --> FilterExpenses[Filter Expenses]
-    FilterExpenses --> ViewExpenses
+    SetBudget --> SaveBudget[Save Budget to Database]
+    AddIncome --> SaveIncome[Save Income to Database]
+    SaveBudget --> RefreshBudget[Refresh Budget Display]
+    SaveIncome --> RefreshBudget
+    RefreshBudget --> BudgetPage
     
-    ShowStats --> CalculateStats[Calculate Statistics]
-    CalculateStats --> DisplayCharts[Display Charts]
-    DisplayCharts --> ViewExpenses
-    
-    End([End])
-```
-
-## AI Chat Flow
-
-```mermaid
-flowchart TD
-    Start([User Opens AI Chat]) --> LoadHistory[Load Chat History]
-    LoadHistory --> DisplayHistory[Display Previous Messages]
-    DisplayHistory --> WaitInput[Wait for User Input]
-    
-    WaitInput --> UserTypes[User Types Question]
-    UserTypes --> SubmitQuestion{Submit<br/>Question?}
-    SubmitQuestion -->|No| UserTypes
-    SubmitQuestion -->|Yes| ValidateQuestion{Question<br/>Valid?}
-    
-    ValidateQuestion -->|Empty| ShowError[Show Error]
-    ShowError --> WaitInput
-    ValidateQuestion -->|Valid| SendToAI[POST /api/ai/analyze]
-    
-    SendToAI --> FetchData[Fetch User Expense Data]
-    FetchData --> AnalyzeQuery[Analyze Query with AI]
-    AnalyzeQuery --> GenerateResponse[Generate AI Response]
-    GenerateResponse --> SaveChat[Save to Chat History]
+    ChatPage --> TypeQuestion[Type Question]
+    TypeQuestion --> SendQuestion[Send to AI]
+    SendQuestion --> FetchUserData[Fetch User Expense Data]
+    FetchUserData --> Analyze[AI Analyzes Data]
+    Analyze --> GenerateResponse[Generate AI Response]
+    GenerateResponse --> SaveChat[Save Chat History]
     SaveChat --> DisplayResponse[Display Response]
-    DisplayResponse --> WaitInput
+    DisplayResponse --> TypeQuestion
     
-    WaitInput --> ClearHistory{Clear<br/>History?}
-    ClearHistory -->|Yes| ConfirmClear{Confirm<br/>Clear?}
-    ConfirmClear -->|Yes| DeleteHistory[DELETE /api/chat/history]
-    DeleteHistory --> ClearMessages[Clear Messages]
-    ClearMessages --> WaitInput
-    ConfirmClear -->|No| WaitInput
-    ClearHistory -->|No| WaitInput
+    ChatPage --> ClearChat{Clear<br/>History?}
+    ClearChat -->|Yes| DeleteHistory[Delete Chat History]
+    DeleteHistory --> ChatPage
+    ClearChat -->|No| TypeQuestion
     
     End([End])
 ```
-
-## Budget Management Flow
-
-```mermaid
-flowchart TD
-    Start([User on Dashboard]) --> ViewBudget[View Budget Card]
-    ViewBudget --> BudgetAction{User Action}
-    
-    BudgetAction -->|Set Budget| OpenBudgetModal[Open Budget Modal]
-    BudgetAction -->|Add Income| OpenIncomeForm[Open Income Form]
-    BudgetAction -->|View Usage| CalculateUsage[Calculate Budget Usage]
-    
-    OpenBudgetModal --> EnterBudget[Enter Monthly Budget]
-    EnterBudget --> SubmitBudget[Submit Budget]
-    SubmitBudget --> ValidateBudget{Budget<br/>Valid?}
-    ValidateBudget -->|Invalid| ShowBudgetError[Show Error]
-    ShowBudgetError --> EnterBudget
-    ValidateBudget -->|Valid| SendBudgetRequest[POST /api/budget]
-    SendBudgetRequest --> SaveBudget[Save/Update Budget]
-    SaveBudget --> CalculateUsage
-    
-    OpenIncomeForm --> EnterIncome[Enter Income Amount]
-    EnterIncome --> EnterSource[Enter Source Optional]
-    EnterSource --> SubmitIncome[Submit Income]
-    SubmitIncome --> ValidateIncome{Income<br/>Valid?}
-    ValidateIncome -->|Invalid| ShowIncomeError[Show Error]
-    ShowIncomeError --> EnterIncome
-    ValidateIncome -->|Valid| SendIncomeRequest[POST /api/budget/income]
-    SendIncomeRequest --> SaveIncome[Save Income]
-    SaveIncome --> RefreshDashboard[Refresh Dashboard]
-    
-    CalculateUsage --> GetExpenses[Get Monthly Expenses]
-    GetExpenses --> CalculateRemaining[Calculate Remaining Budget]
-    CalculateRemaining --> DisplayUsage[Display Usage Percentage]
-    DisplayUsage --> RefreshDashboard
-    
-    RefreshDashboard --> ViewBudget
-    
-    End([End])
-```
-
