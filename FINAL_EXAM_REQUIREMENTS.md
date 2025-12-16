@@ -1,8 +1,8 @@
-# FinWise - Final Exam Project Requirements
+# Aicash - Final Exam Project Requirements
 
 ## ✅ 1. Topic Selection
 **Status:** ✅ Complete
-- **Topic:** AI-Powered Expense Tracker (FinWise)
+- **Topic:** AI-Powered Expense Tracker (Aicash)
 - **Real-life Problem:** People struggle to track expenses, manage budgets, and get financial insights
 - **Solution:** Intelligent expense tracking with AI-powered analysis and recommendations
 
@@ -13,7 +13,7 @@
   - ✅ Data Flow Diagram (`diagrams/data-flow-diagram.md`)
   - ✅ Sequence Diagram (`diagrams/sequence-diagram.md`)
 - **PowerPoint:** Create presentation with:
-  - Project title: "FinWise - AI-Powered Expense Tracker"
+  - Project title: "Aicash - AI-Powered Expense Tracker"
   - Problem: "Managing personal finances and tracking expenses is challenging"
   - Three diagrams (already created)
 

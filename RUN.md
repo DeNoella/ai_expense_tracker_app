@@ -1,4 +1,4 @@
-# How to Run FinWise
+# How to Run Aicash
 
 ## 🚀 Option 1: Run Both Together (Recommended)
 

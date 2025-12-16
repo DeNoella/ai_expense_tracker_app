@@ -1,9 +1,9 @@
-# FinWise - Final Exam Requirements Setup Guide
+# Aicash - Final Exam Requirements Setup Guide
 
 ## Quick Setup Checklist
 
 ### ✅ Already Complete
-1. ✅ Topic Selection - FinWise Expense Tracker
+1. ✅ Topic Selection - Aicash Expense Tracker
 2. ✅ Software Design - Three diagrams created
 3. ✅ Programming Language - TypeScript/JavaScript
 4. ✅ Basic Code Structure
@@ -16,7 +16,7 @@
 # In project root
 git init
 git add .
-git commit -m "Initial commit: FinWise Expense Tracker"
+git commit -m "Initial commit: Aicash Expense Tracker"
 ```
 
 ## 2. Create GitHub Repository
@@ -80,7 +80,7 @@ npm install --save-dev prettier
 ## 6. Create PowerPoint Presentation
 
 Include:
-- Title: "FinWise - AI-Powered Expense Tracker"
+- Title: "Aicash - AI-Powered Expense Tracker"
 - Problem Statement
 - Solution Overview
 - Three Diagrams (Activity, Data Flow, Sequence)

@@ -1,4 +1,4 @@
-# FinWise - Testing Plan
+# Aicash - Testing Plan
 
 ## 1. Testing Strategy
 

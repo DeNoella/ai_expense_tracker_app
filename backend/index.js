@@ -29,10 +29,10 @@ app.use('/api/chat', chatRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'FinWise API is running' });
+  res.json({ status: 'ok', message: 'Aicash API is running' });
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 FinWise API server running on port ${PORT}`);
+  console.log(`🚀 Aicash API server running on port ${PORT}`);
 });
 

@@ -72,13 +72,13 @@ const translations: Record<TranslationKey, any> = {
     testimonialsHeading: 'Voices from our community',
     testimonials: [
       {
-        name: 'Aline M.',
+        name: 'Ange M.',
         role: 'Founder, Kigali',
         quote:
           'Aicash keeps my runway clear. The AI alerts caught duplicate spend in seconds — huge win.',
       },
       {
-        name: 'Jean-Paul K.',
+        name: 'Paul K.',
         role: 'Product Lead, Rwanda',
         quote: 'Switching to French for reports is seamless. Dark mode is perfect for late nights.',
       },
@@ -137,13 +137,13 @@ const translations: Record<TranslationKey, any> = {
     testimonialsHeading: 'Ils nous font confiance',
     testimonials: [
       {
-        name: 'Aline M.',
+        name: 'Ange M.',
         role: 'Fondatrice, Kigali',
         quote:
           'Aicash sécurise ma trésorerie. Les alertes IA ont détecté un doublon de dépense en quelques secondes.',
       },
       {
-        name: 'Jean-Paul K.',
+        name: 'Paul K.',
         role: 'Chef de produit, Rwanda',
         quote: 'Basculer en français pour les rapports est fluide. Le mode sombre est parfait la nuit.',
       },
@@ -157,6 +157,7 @@ const translations: Record<TranslationKey, any> = {
 export default function Home() {
   const [theme, setTheme] = useState<ThemeMode>('light');
   const [language, setLanguage] = useState<TranslationKey>('en');
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     setTheme(initTheme());
@@ -170,6 +171,14 @@ export default function Home() {
   useEffect(() => {
     persistLanguage(language);
   }, [language]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const t = useMemo(() => translations[language], [language]);
 
@@ -185,56 +194,65 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <header className="relative overflow-hidden border-b border-[var(--border)] bg-gradient-to-b from-[rgba(156,27,88,0.08)] to-transparent">
-        <div className="absolute inset-0 gradient-surface pointer-events-none" />
-        <div className="relative z-10 mx-auto flex max-w-6xl flex-col space-y-8 px-6 py-8">
-          <div className="flex items-center justify-between gap-4">
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-[var(--background)]/95 backdrop-blur-lg shadow-lg' 
+          : 'bg-[var(--background)]/80 backdrop-blur'
+      } border-b border-[var(--border)]`}>
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="flex items-center justify-between py-4">
+            {/* Logo */}
             <BrandMark showText />
 
-            <div className="flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 py-2 shadow-sm">
-              <button
-                className={`flex items-center gap-2 rounded-full px-3 py-2 text-sm transition ${
-                  theme === 'light' ? 'bg-white text-gray-900 shadow' : 'text-[var(--muted)]'
-                }`}
-                onClick={() => setTheme('light')}
-              >
-                <Sun className="h-4 w-4" />
-                Light
-              </button>
-              <button
-                className={`flex items-center gap-2 rounded-full px-3 py-2 text-sm transition ${
-                  theme === 'dark' ? 'bg-[rgba(14,165,233,0.15)] text-white shadow' : 'text-[var(--muted)]'
-                }`}
-                onClick={() => setTheme('dark')}
-              >
-                <Moon className="h-4 w-4" />
-                Dark
-              </button>
-              <div className="mx-2 h-6 w-[1px] bg-[var(--border)]" />
-              <button
-                className="flex items-center gap-2 rounded-full px-3 py-2 text-sm hover:bg-[rgba(14,165,233,0.1)] transition"
-                onClick={() => setLanguage(language === 'en' ? 'fr' : 'en')}
-              >
-                <Languages className="h-4 w-4" />
-                {language === 'en' ? 'Français' : 'English'}
-              </button>
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center gap-1">
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-full border border-transparent px-4 py-2 text-sm transition hover:border-[var(--border)] hover:text-[var(--foreground)]"
+                >
+                  {item.label}
+                </a>
+              ))}
             </div>
-          </div>
 
-          <nav className="flex flex-wrap items-center gap-3 text-sm text-[var(--muted)]">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="rounded-full border border-transparent px-4 py-2 transition hover:border-[var(--border)] hover:text-[var(--foreground)]"
-              >
-                {item.label}
-              </a>
-            ))}
+            {/* Right Side Controls */}
             <div className="flex items-center gap-3">
+              {/* Theme & Language Switcher */}
+              <div className="flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-2 py-1.5 shadow-sm">
+                <button
+                  className={`flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs transition ${
+                    theme === 'light' ? 'bg-white text-gray-900 shadow' : 'text-[var(--muted)]'
+                  }`}
+                  onClick={() => setTheme('light')}
+                >
+                  <Sun className="h-3.5 w-3.5" />
+                  Light
+                </button>
+                <button
+                  className={`flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs transition ${
+                    theme === 'dark' ? 'bg-[rgba(14,165,233,0.15)] text-white shadow' : 'text-[var(--muted)]'
+                  }`}
+                  onClick={() => setTheme('dark')}
+                >
+                  <Moon className="h-3.5 w-3.5" />
+                  Dark
+                </button>
+                <div className="mx-1 h-5 w-[1px] bg-[var(--border)]" />
+                <button
+                  className="flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs hover:bg-[rgba(14,165,233,0.1)] transition"
+                  onClick={() => setLanguage(language === 'en' ? 'fr' : 'en')}
+                >
+                  <Languages className="h-3.5 w-3.5" />
+                  {language === 'en' ? 'FR' : 'EN'}
+                </button>
+              </div>
+
+              {/* Auth Buttons */}
               <Link
                 href="/login"
-                className="rounded-full border border-[var(--border)] px-4 py-2 text-sm hover:border-[rgba(14,165,233,0.5)] hover:text-[var(--foreground)]"
+                className="hidden sm:block rounded-full border border-[var(--border)] px-4 py-2 text-sm hover:border-[rgba(14,165,233,0.5)] hover:text-[var(--foreground)] transition"
               >
                 Login
               </Link>
@@ -246,8 +264,13 @@ export default function Home() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-          </nav>
+          </div>
+        </div>
+      </nav>
 
+      <header className="relative overflow-hidden border-b border-[var(--border)] bg-gradient-to-b from-[rgba(156,27,88,0.08)] to-transparent pt-20">
+        <div className="absolute inset-0 gradient-surface pointer-events-none" />
+        <div className="relative z-10 mx-auto flex max-w-6xl flex-col space-y-8 px-6 py-12">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center">
             <div className="space-y-6">
               <p className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[var(--accent)] shadow">
@@ -258,7 +281,7 @@ export default function Home() {
               <div className="flex flex-wrap gap-3">
                 <Link
                   href="/register"
-                className="flex items-center gap-2 rounded-full bg-gradient-to-r from-[var(--accent)] via-[var(--accent-2)] to-[#0b72d7] px-6 py-3 text-sm font-semibold text-white shadow-xl transition hover:translate-y-[-1px]"
+                  className="flex items-center gap-2 rounded-full bg-gradient-to-r from-[var(--accent)] via-[var(--accent-2)] to-[#0b72d7] px-6 py-3 text-sm font-semibold text-white shadow-xl transition hover:translate-y-[-1px]"
                 >
                   <Sparkles className="h-4 w-4" />
                   {t.ctaPrimary}
@@ -318,7 +341,7 @@ export default function Home() {
                   <Stat label="Receipts stored" value="134" hint="Ready to export" />
                 </div>
                 <div className="mt-6 rounded-xl border border-[var(--border)] bg-gradient-to-r from-[rgba(14,165,233,0.12)] via-[rgba(15,118,110,0.08)] to-transparent px-4 py-3 text-sm text-[var(--muted)]">
-                  “Aicash keeps me calm about every franc. The bilingual AI tips are gold.”
+                  "Aicash keeps me calm about every franc. The bilingual AI tips are gold."
                 </div>
               </div>
             </div>
@@ -443,7 +466,7 @@ export default function Home() {
             </div>
             <div className="flex items-start gap-2">
               <Mail className="mt-1 h-5 w-5 text-[#0ea5e9]" />
-              <span>hello@aicash.ai</span>
+              <span>info@aicash.ai</span>
             </div>
             <div className="flex items-start gap-2">
               <Phone className="mt-1 h-5 w-5 text-[#0ea5e9]" />

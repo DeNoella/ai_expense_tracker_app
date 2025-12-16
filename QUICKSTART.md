@@ -1,4 +1,4 @@
-# FinWise Quick Start Guide
+# Aicash Quick Start Guide
 
 ## 🚀 Quick Setup (5 minutes)
 
@@ -130,5 +130,5 @@ Open your browser and navigate to:
 - JWT tokens expire after 7 days
 - Chat history is saved per user
 
-Enjoy using FinWise! 🎉
+Enjoy using Aicash! 🎉
 

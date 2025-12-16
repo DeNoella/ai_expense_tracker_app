@@ -1,6 +1,6 @@
-# FinWise Diagrams
+# Aicash Diagrams
 
-Three standard diagrams for the FinWise Expense Tracker application.
+Three standard diagrams for the Aicash Expense Tracker application.
 
 ## 📊 Diagrams
 

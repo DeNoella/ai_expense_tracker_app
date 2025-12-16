@@ -48,7 +48,7 @@ export default function LoginPage() {
             <div className="flex justify-center mb-3">
               <BrandMark />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Aicash</h1>
+            <h1 className="text-3xl font-bold text-white-900 mb-2">Aicash</h1>
             <p className="text-gray-600">Welcome back! Sign in to continue</p>
           </div>
 
@@ -60,7 +60,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white-700 mb-2">
                 Email Address
               </label>
               <div className="relative">
@@ -77,7 +77,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white-700 mb-2">
                 Password
               </label>
               <div className="relative">

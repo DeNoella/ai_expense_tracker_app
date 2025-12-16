@@ -1,6 +1,6 @@
-# FinWise - Smart Expense Tracker
+# Aicash - Smart Expense Tracker
 
-FinWise is a modern, intelligent expense tracking application that helps you manage your finances with AI-powered insights. Built with Next.js for the frontend and Node.js for the backend.
+Aicash is a modern, intelligent expense tracking application that helps you manage your finances with AI-powered insights. Built with Next.js for the frontend and Node.js for the backend.
 
 ## ✨ Features
 
@@ -292,8 +292,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📧 Support
 
-For support, email support@finwise.app or create an issue in the repository.
+For support, email support@Aicash.app or create an issue in the repository.
 
 ---
 
-**FinWise** - Your intelligent financial companion 🚀
+**Aicash** - Your intelligent financial companion 🚀
