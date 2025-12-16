@@ -1,4 +1,4 @@
-# Activity Diagram - FinWise
+# Activity Diagram - Aicash
 
 ```mermaid
 flowchart TD

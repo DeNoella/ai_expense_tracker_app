@@ -164,7 +164,7 @@ export default function AIChatPage() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 flex items-center space-x-2">
+            <h1 className="text-3xl font-bold text-white-900 flex items-center space-x-2">
               <Sparkles className="w-8 h-8 text-indigo-600" />
               <span>AI Assistant</span>
             </h1>

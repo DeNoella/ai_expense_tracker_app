@@ -1,4 +1,4 @@
-# FinWise - Software Design Patterns
+# Aicash - Software Design Patterns
 
 ## Implemented Design Pattern: Repository Pattern
 

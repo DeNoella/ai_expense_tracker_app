@@ -139,12 +139,12 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+            <h1 className="text-3xl font-bold text-white-900">Dashboard</h1>
             <p className="text-gray-600 mt-1">Overview of your financial health</p>
           </div>
           <Link
             href="/expenses"
-            className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl"
+            className="flex items-center space-x-2 bg-gradient-to-r from-[#0ea5e9] via-[#0f9fbf] to-[#0f766e] text-white px-6 py-3 rounded-lg hover:brightness-105 transition-all shadow-lg hover:shadow-xl"
           >
             <Plus className="w-5 h-5" />
             <span>Add Expense</span>
@@ -153,7 +153,7 @@ export default function DashboardPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-[rgba(14,165,233,0.1)]">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Total Expenses</p>
@@ -165,7 +165,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-[rgba(14,165,233,0.1)]">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Total Income</p>
@@ -177,7 +177,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-[rgba(14,165,233,0.1)]">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Remaining Budget</p>
@@ -196,7 +196,7 @@ export default function DashboardPage() {
             </button>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-[rgba(14,165,233,0.1)]">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Budget Usage</p>
@@ -211,12 +211,12 @@ export default function DashboardPage() {
 
         {/* Insights */}
         {insights.length > 0 && (
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+          <div className="bg-gradient-to-r from-[#e0f4ff] via-[#e6fffb] to-[#dbeafe] rounded-xl p-6 border border-[rgba(14,165,233,0.3)]">
             <h2 className="text-lg font-semibold text-gray-900 mb-3">AI Insights</h2>
             <ul className="space-y-2">
               {insights.map((insight, index) => (
                 <li key={index} className="flex items-start space-x-2 text-gray-700">
-                  <ArrowRight className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <ArrowRight className="w-5 h-5 text-[#0ea5e9] mt-0.5 flex-shrink-0" />
                   <span>{insight}</span>
                 </li>
               ))}
@@ -226,24 +226,24 @@ export default function DashboardPage() {
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-[rgba(14,165,233,0.1)]">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Expenses by Category</h2>
             <ExpensePieChart data={stats?.byCategory || []} />
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-[rgba(14,165,233,0.1)]">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Spending Trend (Last 6 Months)</h2>
             <ExpenseTrendChart data={stats?.trend || []} />
           </div>
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+        <div className="bg-white rounded-xl shadow-sm p-6 border border-[rgba(14,165,233,0.1)]">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link
               href="/expenses"
-              className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors"
+              className="flex items-center space-x-3 p-4 border border-[rgba(14,165,233,0.1)] rounded-lg hover:border-[rgba(14,165,233,0.4)] hover:bg-[#e0f4ff] transition-colors"
             >
               <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                 <DollarSign className="w-5 h-5 text-blue-600" />
@@ -256,7 +256,7 @@ export default function DashboardPage() {
 
             <Link
               href="/ai-chat"
-              className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-colors"
+              className="flex items-center space-x-3 p-4 border border-[rgba(14,165,233,0.1)] rounded-lg hover:border-[rgba(15,118,110,0.4)] hover:bg-[#e6fffb] transition-colors"
             >
               <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
                 <TrendingUp className="w-5 h-5 text-purple-600" />
@@ -269,7 +269,7 @@ export default function DashboardPage() {
 
             <Link
               href="/expenses?action=add"
-              className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors"
+              className="flex items-center space-x-3 p-4 border border-[rgba(14,165,233,0.1)] rounded-lg hover:border-[rgba(34,197,94,0.4)] hover:bg-green-50 transition-colors"
             >
               <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                 <Plus className="w-5 h-5 text-green-600" />
@@ -284,7 +284,7 @@ export default function DashboardPage() {
 
         {/* Budget & Income Management */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-[rgba(14,165,233,0.1)]">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Add Income</h2>
             <form onSubmit={handleAddIncome} className="space-y-4">
               <div>
@@ -296,7 +296,7 @@ export default function DashboardPage() {
                   value={incomeAmount}
                   onChange={(e) => setIncomeAmount(e.target.value)}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="w-full px-4 py-2 border border-[rgba(14,165,233,0.25)] rounded-lg focus:ring-2 focus:ring-[rgba(14,165,233,0.5)] focus:border-transparent outline-none text-gray-900 placeholder:text-gray-400 bg-white"
                   placeholder="0.00"
                 />
               </div>
@@ -306,13 +306,13 @@ export default function DashboardPage() {
                   type="text"
                   value={incomeSource}
                   onChange={(e) => setIncomeSource(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="w-full px-4 py-2 border border-[rgba(14,165,233,0.25)] rounded-lg focus:ring-2 focus:ring-[rgba(14,165,233,0.5)] focus:border-transparent outline-none text-gray-900 placeholder:text-gray-400 bg-white"
                   placeholder="Salary, Freelance, etc."
                 />
               </div>
               <button
                 type="submit"
-                className="w-full px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all"
+                className="w-full px-4 py-2 bg-gradient-to-r from-[#0ea5e9] via-[#0f9fbf] to-[#0f766e] text-white rounded-lg hover:brightness-105 transition-all shadow"
               >
                 Add Income
               </button>
@@ -324,7 +324,7 @@ export default function DashboardPage() {
       {/* Budget Modal */}
       {showBudgetModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 border border-[rgba(14,165,233,0.12)]">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-gray-900">Set Monthly Budget</h2>
               <button
@@ -350,7 +350,7 @@ export default function DashboardPage() {
                     value={budgetAmount}
                     onChange={(e) => setBudgetAmount(e.target.value)}
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                    className="w-full pl-10 pr-4 py-3 border border-[rgba(14,165,233,0.25)] rounded-lg focus:ring-2 focus:ring-[rgba(14,165,233,0.5)] focus:border-transparent outline-none text-gray-900 placeholder:text-gray-400 bg-white"
                     placeholder={budget ? budget.monthly_budget.toString() : "0.00"}
                   />
                 </div>
@@ -368,13 +368,13 @@ export default function DashboardPage() {
                     setShowBudgetModal(false);
                     setBudgetAmount('');
                   }}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-2 border border-[rgba(14,165,233,0.25)] text-gray-700 rounded-lg hover:bg-[#e0f4ff] transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all"
+                  className="flex-1 px-4 py-2 bg-gradient-to-r from-[#0ea5e9] via-[#0f9fbf] to-[#0f766e] text-white rounded-lg hover:brightness-105 transition-all shadow"
                 >
                   {budget ? 'Update' : 'Set'} Budget
                 </button>

@@ -5,7 +5,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { authAPI } from '@/lib/api';
 import { setAuthToken, setUser, isAuthenticated } from '@/lib/auth';
-import { LogIn, Mail, Lock, TrendingUp } from 'lucide-react';
+import LogIn from 'lucide-react/dist/esm/icons/log-in';
+import Mail from 'lucide-react/dist/esm/icons/mail';
+import Lock from 'lucide-react/dist/esm/icons/lock';
+import BrandMark from '@/components/BrandMark';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -38,14 +41,14 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[var(--background)] flex items-center justify-center p-4 transition-colors">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-[var(--card)] text-[var(--foreground)] rounded-2xl shadow-2xl shadow-[rgba(14,165,233,0.18)] p-8 border border-[rgba(14,165,233,0.12)]">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl mb-4">
-              <TrendingUp className="w-8 h-8 text-white" />
+            <div className="flex justify-center mb-3">
+              <BrandMark />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">FinWise</h1>
+            <h1 className="text-3xl font-bold text-white-900 mb-2">Aicash</h1>
             <p className="text-gray-600">Welcome back! Sign in to continue</p>
           </div>
 
@@ -57,7 +60,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white-700 mb-2">
                 Email Address
               </label>
               <div className="relative">
@@ -67,14 +70,14 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-                  placeholder="you@example.com"
+                  className="w-full pl-10 pr-4 py-3 border border-[rgba(14,165,233,0.25)] rounded-lg focus:ring-2 focus:ring-[rgba(14,165,233,0.5)] focus:border-transparent outline-none transition text-gray-900 placeholder:text-gray-400 bg-white"
+                  placeholder="noella@example.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white-700 mb-2">
                 Password
               </label>
               <div className="relative">
@@ -84,7 +87,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                  className="w-full pl-10 pr-4 py-3 border border-[rgba(14,165,233,0.25)] rounded-lg focus:ring-2 focus:ring-[rgba(14,165,233,0.5)] focus:border-transparent outline-none transition text-gray-900 placeholder:text-gray-400 bg-white"
                   placeholder="••••••••"
                 />
               </div>
@@ -93,7 +96,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-[#0ea5e9] via-[#0f9fbf] to-[#0f766e] text-white py-3 rounded-lg font-semibold hover:brightness-105 transition-all duration-200 shadow-lg shadow-[rgba(14,165,233,0.35)] hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -112,7 +115,7 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <p className="text-gray-600">
               Don't have an account?{' '}
-              <Link href="/register" className="text-blue-600 hover:text-blue-700 font-semibold">
+              <Link href="/register" className="text-[#0ea5e9] hover:text-[#0f766e] font-semibold">
                 Create one now
               </Link>
             </p>

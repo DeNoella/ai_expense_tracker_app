@@ -1,8 +1,8 @@
-# FinWise - Final Exam Project Requirements Checklist
+# Aicash - Final Exam Project Requirements Checklist
 
 ## ✅ 1. Topic Selection
 **Status:** ✅ Complete
-- **Topic:** AI-Powered Expense Tracker (FinWise)
+- **Topic:** AI-Powered Expense Tracker (Aicash)
 - **Real-life Problem:** People struggle to track expenses, manage budgets, and get financial insights
 - **Solution:** Intelligent expense tracking with AI-powered analysis and recommendations
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ThemeHydrator from "@/components/ThemeHydrator";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FinWise - Smart Expense Tracker",
-  description: "Intelligent expense tracking with AI-powered insights",
+  title: "Aicash - AI Expense Tracker",
+  description:
+    "Aicash helps you control spending, forecast budgets, and get AI insights.",
 };
 
 export default function RootLayout({
@@ -27,6 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ThemeHydrator />
         {children}
       </body>
     </html>

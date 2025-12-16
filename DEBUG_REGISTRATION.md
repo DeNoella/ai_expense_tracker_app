@@ -13,7 +13,7 @@ http://localhost:5000/api/health
 ```json
 {
   "status": "ok",
-  "message": "FinWise API is running",
+  "message": "Aicash API is running",
   "database": "connected"
 }
 ```

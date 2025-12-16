@@ -22,6 +22,12 @@ declare module 'lucide-react' {
   export default __namedExports;
 }
 
+declare module 'lucide-react/dist/esm/icons/*' {
+  import * as React from 'react';
+  const Icon: React.ComponentType<any>;
+  export default Icon;
+}
+
 declare module 'next/link' {
   import * as React from 'react';
   type LinkProps = React.ComponentProps<'a'> & { href: string; legacyBehavior?: boolean };
