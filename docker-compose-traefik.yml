@@ -1,0 +1,148 @@
+services:
+
+  traefik:
+    image: traefik:v2.10
+    container_name: ai_expense_tracker_app-traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.endpoint=npipe:////./pipe/docker_engine"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - type: npipe
+        source: \\.\pipe\docker_engine
+        target: \\.\pipe\docker_engine
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai_expense_tracker_app-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: finwise
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend-1:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai_expense_tracker_app-backend-1
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api-http.rule=Host(`aicash.local`) && PathPrefix(`/api/`)"
+      - "traefik.http.routers.api-http.entrypoints=web"
+      - "traefik.http.routers.api-http.service=api"
+      - "traefik.http.services.api.loadbalancer.server.port=5000"
+    environment:
+      PORT: 5000
+      FRONTEND_URL: http://aicash.local
+      DB_USER: postgres
+      DB_HOST: postgres
+      DB_NAME: finwise
+      DB_PASSWORD: 123
+      DB_PORT: 5432
+      JWT_SECRET: your-secret-key-change-in-production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    restart: unless-stopped
+
+  backend-2:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai_expense_tracker_app-backend-2
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api-http.rule=Host(`aicash.local`) && PathPrefix(`/api/`)"
+      - "traefik.http.routers.api-http.entrypoints=web"
+      - "traefik.http.routers.api-http.service=api"
+      - "traefik.http.services.api.loadbalancer.server.port=5000"
+    environment:
+      PORT: 5000
+      FRONTEND_URL: http://aicash.local
+      DB_USER: postgres
+      DB_HOST: postgres
+      DB_NAME: finwise
+      DB_PASSWORD: 123
+      DB_PORT: 5432
+      JWT_SECRET: your-secret-key-change-in-production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    restart: unless-stopped
+
+  frontend-1:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai_expense_tracker_app-frontend-1
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app-http.rule=Host(`aicash.local`)"
+      - "traefik.http.routers.app-http.entrypoints=web"
+      - "traefik.http.routers.app-http.service=app"
+      - "traefik.http.services.app.loadbalancer.server.port=3000"
+      - "traefik.http.routers.app-https.rule=Host(`aicash.local`)"
+      - "traefik.http.routers.app-https.entrypoints=websecure"
+      - "traefik.http.routers.app-https.tls=true"
+      - "traefik.http.routers.app-https.service=app"
+    environment:
+      NEXT_PUBLIC_API_URL: http://aicash.local/api
+    depends_on:
+      - backend-1
+      - backend-2
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped
+
+  frontend-2:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai_expense_tracker_app-frontend-2
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app-http.rule=Host(`aicash.local`)"
+      - "traefik.http.routers.app-http.entrypoints=web"
+      - "traefik.http.routers.app-http.service=app"
+      - "traefik.http.services.app.loadbalancer.server.port=3000"
+      - "traefik.http.routers.app-https.rule=Host(`aicash.local`)"
+      - "traefik.http.routers.app-https.entrypoints=websecure"
+      - "traefik.http.routers.app-https.tls=true"
+      - "traefik.http.routers.app-https.service=app"
+    environment:
+      NEXT_PUBLIC_API_URL: http://aicash.local/api
+    depends_on:
+      - backend-1
+      - backend-2
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
